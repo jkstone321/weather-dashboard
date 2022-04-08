@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="./assets/css/reset.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./assets/css/style.css"/>
+</head>
+<body class="bg-dark">
+    <header>
+        <h1 class="text-center bg-primary py-3 text-white">Weather Dashboard</h1>
+    </header>
+    <div class="container-fluid col-3 float-left">
+    <!-- search box -->
+    <div class="card  my-3">
+        <div class="card-body">
+            <h5 class="card-title mb-4">Search for a city:</h5>
+            <div class="input-group flex-nowrap mb-3">
+                <input type="text" class="form-control my-2" placeholder="San Diego" aria-label="City" aria-describedby="addon-wrapping">
+            </div>
+            <a href="#" class="btn btn-primary mt-3 mb-2 w-100">Search</a>
+        </div>
+    </div>
+
+    <!-- list of cities in local storage. click to change the cards on right -->
+    <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-primary">Austin</button>
+        <button type="button" class="btn btn-primary">Indianapolis</button>
+        <button type="button" class="btn btn-primary">Carmel</button>
+        <button type="button" class="btn btn-primary">Greenwood</button>
+        <button type="button" class="btn btn-primary">Bloomington</button>
+    </div>
+    </div>
+
+    <div class="container-fluid col-12 float right">
+        <!-- displays current weather of current city -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Indianapolis</h5>
+                <p class="card-text">Temperature:</p>
+                <p class="card-text">Wind:</p>
+                <p class="card-text">Humidity:</p>
+                <p class="card-text">UV Index:</p>
+            </div>
+        </div>
+
+        <!-- five day forecast -->
+        <div class="my-3 row">
+            <div class="card col mr-1">
+                <div class="card-body">
+                    <h5 class="card-title">Monday</h5>
+                    <p class="card-text">Temp:</p>
+                    <p class="card-text">Wind:</p>
+                    <p class="card-text">Humidity:</p>
+                </div>
+            </div>
+            <div class="card col mr-1">
+                <div class="card-body">
+                    <h5 class="card-title">Tuesday</h5>
+                    <p class="card-text">Temp:</p>
+                    <p class="card-text">Wind:</p>
+                    <p class="card-text">Humidity:</p>
+                </div>
+            </div>
+            <div class="card col mr-1">
+                <div class="card-body">
+                    <h5 class="card-title">Wednesday</h5>
+                    <p class="card-text">Temp:</p>
+                    <p class="card-text">Wind:</p>
+                    <p class="card-text">Humidity:</p>
+                </div>
+            </div>
+            <div class="card col mr-1">
+                <div class="card-body">
+                    <h5 class="card-title">Thursday</h5>
+                    <p class="card-text">Temp:</p>
+                    <p class="card-text">Wind:</p>
+                    <p class="card-text">Humidity:</p>
+                </div>
+            </div>
+            <div class="card col">
+                <div class="card-body">
+                    <h5 class="card-title">Friday</h5>
+                    <p class="card-text">Temp:</p>
+                    <p class="card-text">Wind:</p>
+                    <p class="card-text">Humidity:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

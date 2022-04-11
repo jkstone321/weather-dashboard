@@ -10,18 +10,32 @@ var lon;
 var cityName;
 var currentWeather;
 var btnNum = 0;
+var searchHistory = [];
 
-
+if(JSON.parse(localStorage.getItem("search-history")) !== null){
+    searchHistory = JSON.parse(localStorage.getItem("search-history"));
+    for(var x = 0; x < searchHistory.length; x++) {
+        cityName = searchHistory[x];
+        words = cityName.split(" ");
+        for(var y = 0; y < words.length; y++) {
+            words[y] = words[y][0].toUpperCase() + words[y].substr(1);
+        }
+        cityName = words.join(" ");
+        displayButtons(cityName);
+    }
+}
 userFormEl.addEventListener("submit", function(event) {
     event.preventDefault();
     chCity = encodeURIComponent(searchInput.value.trim());
     cityName = searchInput.value.trim();
+    searchHistory.push(cityName);
+    localStorage.setItem("search-history", JSON.stringify(searchHistory));
     var words = cityName.split(" ");
     for(var x = 0; x < words.length; x++) {
         words[x] = words[x][0].toUpperCase() + words[x].substr(1);
     }
-    document.querySelector("#search-input").value = "";
     cityName = words.join(" ");
+    document.querySelector("#search-input").value = "";
     console.log(chCity);
     displayButtons(cityName);
     getLatLon();
@@ -111,9 +125,15 @@ function getCityWeather() {
 //side buttons to change which city is displayed
 document.querySelector("#search-results").addEventListener("click", function(event) {
     cityName = $(event.target).text();
+    var words = cityName.split(" ");
+    for(var x = 0; x < words.length; x++) {
+        words[x] = words[x][0].toUpperCase() + words[x].substr(1);
+    }
+    cityName = words.join(" ");
     chCity = encodeURIComponent($(event.target).text());
     console.log(chCity);
     getLatLon();
+    console.log(searchHistory);
 });
 
 

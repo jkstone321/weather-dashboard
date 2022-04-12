@@ -13,9 +13,12 @@ var btnNum = 0;
 var searchHistory = [];
 var dayJsObject = dayjs();
 var crntDate = dayJsObject.format("MM DD YYYY");
-
+var tmeZone = "";
 //gets date for tomorrow
 var tmrrwDate = dayjs().add(1,"day").format("MM DD YYYY");
+
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
 
 
 if(JSON.parse(localStorage.getItem("search-history")) !== null){
@@ -80,21 +83,24 @@ function getCityWeather() {
     .then(function (data) {
       console.log(data);
       currentWeather = data.current.weather[0].id;
+      tmeZone = data.timezone;
       // currentWeather = 15220;
       console.log(currentWeather);
-      document.querySelector("#main-name").innerHTML = cityName + " " + dayJsObject.format("MM-DD-YYYY") + " ";
+      document.querySelector("#main-name").innerHTML = cityName + " " + dayJsObject.tz(tmeZone).format("MM-DD-YYYY") + " ";
       var icon = document.createElement("i");
       icon.classList = getIcon(currentWeather);
-    
+      
+
       document.querySelector("#main-name").appendChild(icon);
       document.querySelector("#main-temp").innerHTML = "Temperature: "+data.current.temp+"°F";
       document.querySelector("#main-wind").innerHTML = "Wind Speed: "+data.current.wind_speed+" MPH"
       document.querySelector("#main-humidity").innerHTML = "Humidity: "+data.current.humidity+"%";
-      document.querySelector("#main-uv").innerHTML = "UV Index: "+data.current.uvi;
+      document.querySelector("#main-uv").innerHTML = data.current.uvi;
+      setUvBackground(data.current.uvi);
 
       //five day forecast
       for(var x = 1; x < 6; x++) {
-          document.querySelector("#day"+x).innerHTML = dayjs().add(x,"day").format("MM-DD-YYYY");
+          document.querySelector("#day"+x).innerHTML = dayjs().tz(tmeZone).add(x,"day").format("MM-DD-YYYY");
           var icon = document.createElement("i");
           icon.classList = getIcon(data.daily[x].weather[0].id)
           document.querySelector("#day"+x).appendChild(icon);
@@ -142,7 +148,18 @@ function getIcon(code) {
     }
     return classes;
 }
-
+function setUvBackground (index) {
+    if(index >= 0 && index < 4){
+        //set background to green
+        document.querySelector("#main-uv").setAttribute("style", "background-color: green");
+    }else if(index >= 4 && index < 7){
+        //set background to yellow
+        document.querySelector("#main-uv").setAttribute("style", "background-color: yellow");
+    }else if(index > 7){
+        //setbackground to red
+        document.querySelector("#main-uv").setAttribute("style", "background-color: red");
+    }
+}
 //side buttons to change which city is displayed
 document.querySelector("#search-results").addEventListener("click", function(event) {
     cityName = $(event.target).text();

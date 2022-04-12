@@ -2,3 +2,8 @@ i{
     font-size: 1.5rem;
     margin-left: 10px;
 }
+#main-uv{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+}

@@ -11,6 +11,12 @@ var cityName;
 var currentWeather;
 var btnNum = 0;
 var searchHistory = [];
+var dayJsObject = dayjs();
+var crntDate = dayJsObject.format("MM DD YYYY");
+
+//gets date for tomorrow
+var tmrrwDate = dayjs().add(1,"day").format("MM DD YYYY");
+
 
 if(JSON.parse(localStorage.getItem("search-history")) !== null){
     searchHistory = JSON.parse(localStorage.getItem("search-history"));
@@ -76,40 +82,10 @@ function getCityWeather() {
       currentWeather = data.current.weather[0].id;
       // currentWeather = 15220;
       console.log(currentWeather);
-      document.querySelector("#main-name").innerHTML = cityName + " ";
+      document.querySelector("#main-name").innerHTML = cityName + " " + dayJsObject.format("MM-DD-YYYY") + " ";
       var icon = document.createElement("i");
-      //if statements for all the weather codes
-      if(currentWeather == 511) {
-          //freezing rain icon
-          icon.classList = "bi bi-cloud-sleet";
-      }else if(currentWeather == 781) {
-          //tornado icon
-          icon.classList = "bi bi-tornado";
-      }else if(currentWeather == 800) {
-          //sunny icon
-          icon.classList = "bi bi-brightness-high";
-      }else if(currentWeather >= 200 && currentWeather < 300) {
-          //thunderstorm icon
-          icon.classList = "bi bi-cloud-lightning";
-      }else if(currentWeather >= 300 && currentWeather < 400) {
-          //drizzle icon
-          icon.classList = "bi bi-cloud-drizzle";
-      }else if(currentWeather >= 500 && currentWeather < 600) {
-          //rain icon
-          icon.classList = "bi bi-cloud-rain-heavy";
-      }else if(currentWeather >= 600 && currentWeather < 700) {
-          //snow icon
-          icon.classList = "bi bi-snow3";
-      }else if(currentWeather >= 700 && currentWeather < 800) {
-          //atmosphere icon
-          icon.classList = "bi bi-cloud-haze2";
-      }else if(currentWeather >= 800 && currentWeather < 900){
-          //cloudy icon
-          icon.classList = "bi bi-clouds";
-      }else {
-          //error icon
-          icon.classList = "bi bi-bug";
-      }
+      icon.classList = getIcon(currentWeather);
+    
       document.querySelector("#main-name").appendChild(icon);
       document.querySelector("#main-temp").innerHTML = "Temperature: "+data.current.temp+"°F";
       document.querySelector("#main-wind").innerHTML = "Wind Speed: "+data.current.wind_speed+" MPH"
@@ -117,10 +93,55 @@ function getCityWeather() {
       document.querySelector("#main-uv").innerHTML = "UV Index: "+data.current.uvi;
 
       //five day forecast
-
+      for(var x = 1; x < 6; x++) {
+          document.querySelector("#day"+x).innerHTML = dayjs().add(x,"day").format("MM-DD-YYYY");
+          var icon = document.createElement("i");
+          icon.classList = getIcon(data.daily[x].weather[0].id)
+          document.querySelector("#day"+x).appendChild(icon);
+          document.querySelector("#day"+x+"-temp").innerHTML = "Temperature: " + data.daily[x].temp.day;
+          document.querySelector("#day"+x+"-wind").innerHTML = "Wind: " + data.daily[x].wind_speed + " MPH";
+          document.querySelector("#day"+x+"-humi").innerHTML = "Humidity: " + data.daily[x].humidity + "%";
+      }
+      
+      
     });
 }
 
+function getIcon(code) {
+    var classes = "";
+    if(code == 511) {
+        //freezing rain icon
+        classes = "bi bi-cloud-sleet";
+    }else if(code == 781) {
+        //tornado icon
+        classes = "bi bi-tornado";
+    }else if(code == 800) {
+        //sunny icon
+        classes = "bi bi-brightness-high";
+    }else if(code >= 200 && code < 300) {
+        //thunderstorm icon
+        classes = "bi bi-cloud-lightning";
+    }else if(code >= 300 && code < 400) {
+        //drizzle icon
+        classes = "bi bi-cloud-drizzle";
+    }else if(code >= 500 && code < 600) {
+        //rain icon
+        classes = "bi bi-cloud-rain-heavy";
+    }else if(code >= 600 && code < 700) {
+        //snow icon
+        classes = "bi bi-snow3";
+    }else if(code >= 700 && code < 800) {
+        //atmosphere icon
+        classes = "bi bi-cloud-haze2";
+    }else if(code >= 800 && code < 900){
+        //cloudy icon
+        classes = "bi bi-clouds";
+    }else {
+        //error icon
+        classes = "bi bi-bug";
+    }
+    return classes;
+}
 
 //side buttons to change which city is displayed
 document.querySelector("#search-results").addEventListener("click", function(event) {
@@ -137,3 +158,6 @@ document.querySelector("#search-results").addEventListener("click", function(eve
 });
 
 
+//display date
+
+console.log(dayJsObject.format())

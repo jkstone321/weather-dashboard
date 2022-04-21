@@ -58,7 +58,7 @@ function displayButtons(city){
     searchResults.prepend(buttonEl);
 }
 function getLatLon() {
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?appid=08b8f0866209794788d1351ab8a3ebe4&q="+chCity;
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?appid=08b8f0866209794788d1351ab8a3ebe4&q="+chCity;
 
     fetch(apiUrl)
     .then(function (response) {
